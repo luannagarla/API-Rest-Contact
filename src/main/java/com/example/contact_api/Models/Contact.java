@@ -13,11 +13,11 @@ public class Contact {
         this.email = email;
     }
 
-    public int getId() { return index; }
-    public void setId(int id) { this.index = index; }
+    public int getIndex() { return index; }
+    public void setId(int index) { this.index = index; }
 
     public String getName() { return nome; }
-    public void setName(String name) { this.nome = nome; }
+    public void setName(String nome) { this.nome = nome; }
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }

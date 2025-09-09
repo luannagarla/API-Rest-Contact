@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Contacts API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #2c3e50;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+<h1>Contacts API</h1>
+<p>Endpoint principal: <a href="/contacts">/contacts</a></p>
+
+<h2>Rotas disponíveis</h2>
+<table>
+    <tr>
+        <th>Método</th>
+        <th>Rota</th>
+        <th>Descrição</th>
+    </tr>
+    <tr>
+        <td><code>POST</code></td>
+        <td><code>/contacts</code></td>
+        <td>Criar um novo contato (enviar no body)</td>
+    </tr>
+    <tr>
+        <td><code>GET</code></td>
+        <td><code>/contacts</code></td>
+        <td>Listar todos os contatos</td>
+    </tr>
+    <tr>
+        <td><code>GET</code></td>
+        <td><code>/contacts/{id}</code></td>
+        <td>Obter um contato específico</td>
+    </tr>
+    <tr>
+        <td><code>PUT</code></td>
+        <td><code>/contacts/{id}</code></td>
+        <td>Atualizar um contato existente</td>
+    </tr>
+    <tr>
+        <td><code>DELETE</code></td>
+        <td><code>/contacts/{id}</code></td>
+        <td>Excluir um contato</td>
+    </tr>
+</table>
+</body>
+</html>
