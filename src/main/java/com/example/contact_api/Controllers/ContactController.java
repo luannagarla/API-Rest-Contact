@@ -44,6 +44,9 @@ public class ContactController {
 
     @PostMapping
     public ResponseEntity<Contact> adicionar(@RequestBody Contact contact) {
+        if(contact.getName() == null || contact.getEmail() == null || contact.getTelefone() == null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
         Contact criado = contactService.adicionar(contact);
         return ResponseEntity.status(HttpStatus.CREATED).body(criado);
     }
@@ -55,7 +58,7 @@ public class ContactController {
         {
             boolean removed = contactService.remover(index);
             if (removed) {
-                return ResponseEntity.status(HttpStatus.ACCEPTED).body("Contado removido com sucesso!");
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Contado removido com sucesso!");
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Registro não encontrado!");
             }
