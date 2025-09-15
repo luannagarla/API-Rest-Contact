@@ -1,63 +1,51 @@
-package com.example.contact_api.Services;
+package com.example.contact_api.services;
 
-import com.example.contact_api.Models.Contact;
+import com.example.contact_api.models.Contact;
+import com.example.contact_api.repositories.ContactRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ContactService {
-    private List<Contact> contacts = new ArrayList<>();
+
+    @Autowired
+    private ContactRepository contactRepository;
 
     public List<Contact> listar() {
-        return contacts;
+        return contactRepository.findAll();
     }
 
-    public Optional<Contact> buscar(int index) {
-        if (index >= 0 && index < contacts.size()) {
-            return Optional.of(contacts.get(index));
-        } else {
-            return Optional.empty();
-        }
+    public Optional<Contact> buscar(int id) {
+        return contactRepository.findById(id);
     }
 
     public Contact adicionar(Contact contact) {
-        contact.setId(GenerateIndex());
-        contacts.add(contact.getIndex(), contact);
-
-        return contact;
+        return contactRepository.save(contact);
     }
 
-    public boolean remover(int index) {
-        Optional<Contact> ctt = Optional.of(contacts.get(index));
-        if(ctt == null)
-            return false;
-
-        contacts.remove(index);
-        return true;
-    }
-
-    public Optional<Contact> atualizar(int index, Contact c) {
-        if (index >= 0 && index < contacts.size()) {
-
-            Contact existing = contacts.get(index);
-            existing.setName(c.getName());
-            existing.setEmail(c.getEmail());
-            existing.setTelefone(c.getTelefone());
-            return Optional.of(existing);
+    public Optional<Contact> atualizar(int id, Contact c) {
+        Optional<Contact> existing = contactRepository.findById(id);
+        if (existing.isPresent()) {
+            Contact contact = existing.get();
+            contact.setNome(c.getNome());
+            contact.setEmail(c.getEmail());
+            contact.setTelefone(c.getTelefone());
+            contact.setIdade(c.getIdade());
+            contact.setDataNascimento(c.getDataNascimento());
+            return Optional.of(contactRepository.save(contact));
         } else {
             return Optional.empty();
         }
     }
 
-    public int GenerateIndex()
-    {
-        if(contacts.size() == 0)
-            return 0;
-
-        return contacts.getLast().getIndex() + 1;
+    public boolean remover(int id) {
+        if (!contactRepository.existsById(id)) {
+            return false;
+        }
+        contactRepository.deleteById(id);
+        return true;
     }
 }
-

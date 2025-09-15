@@ -1,11 +1,13 @@
-package com.example.contact_api.Controllers;
+package com.example.contact_api.controllers;
 
-import com.example.contact_api.Models.Contact;
-import com.example.contact_api.Services.ContactService;
+import com.example.contact_api.models.Contact;
+import com.example.contact_api.services.ContactService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,9 +15,9 @@ import java.util.Optional;
 @RequestMapping("/contacts")
 public class ContactController {
 
-    //@Autowired
     private final ContactService contactService;
 
+    @Autowired
     public ContactController(ContactService contactService) {
         this.contactService = contactService;
     }
@@ -26,63 +28,33 @@ public class ContactController {
         return ResponseEntity.ok(contatos);
     }
 
-    @GetMapping("/{index}")
-    public ResponseEntity<Optional<Contact>> buscar(@PathVariable int index) {
-        try
-        {
-            Optional<Contact> contact = contactService.buscar(index);
-            if (contact != null) {
-                return ResponseEntity.ok(contact);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-        }
-        catch(Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    @GetMapping("/{id}")
+    public ResponseEntity<Contact> buscar(@PathVariable int id) {
+        Optional<Contact> contact = contactService.buscar(id);
+        return contact.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @PostMapping
-    public ResponseEntity<Contact> adicionar(@RequestBody Contact contact) {
-        if(contact.getName() == null || contact.getEmail() == null || contact.getTelefone() == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-
+    public ResponseEntity<Contact> adicionar(@Valid @RequestBody Contact contact) {
         Contact criado = contactService.adicionar(contact);
         return ResponseEntity.status(HttpStatus.CREATED).body(criado);
     }
 
-    @DeleteMapping("/{index}")
-    public ResponseEntity<String> remover(@PathVariable int index) {
-
-        try
-        {
-            boolean removed = contactService.remover(index);
-            if (removed) {
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Contado removido com sucesso!");
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Registro não encontrado!");
-            }
-        }
-        catch(Exception e){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> remover(@PathVariable int id) {
+        boolean removed = contactService.remover(id);
+        if (removed) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Contato removido com sucesso!");
+        } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Registro não encontrado!");
         }
     }
 
-    @PutMapping("/{index}")
-    public ResponseEntity<Optional<Contact>> atualizar(@PathVariable int index, @RequestBody Contact contact) {
-
-        try
-        {
-            Optional<Contact> atualizado = contactService.atualizar(index, contact);
-
-            if (atualizado != null) {
-                return ResponseEntity.ok(atualizado);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-        }
-        catch(Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    @PutMapping("/{id}")
+    public ResponseEntity<Contact> atualizar(@PathVariable int id, @Valid @RequestBody Contact contact) {
+        Optional<Contact> atualizado = contactService.atualizar(id, contact);
+        return atualizado.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 }
