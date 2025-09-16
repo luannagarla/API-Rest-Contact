@@ -1,5 +1,16 @@
 package com.example.contact_api.Models;
+
 import java.time.LocalDate;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Past;
 import org.springframework.format.annotation.DateTimeFormat;
 

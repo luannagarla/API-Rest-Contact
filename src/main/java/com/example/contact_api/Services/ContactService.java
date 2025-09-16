@@ -1,7 +1,7 @@
-package com.example.contact_api.services;
+package com.example.contact_api.Services;
 
-import com.example.contact_api.models.Contact;
-import com.example.contact_api.repositories.ContactRepository;
+import com.example.contact_api.Models.Contact;
+import com.example.contact_api.Repositories.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

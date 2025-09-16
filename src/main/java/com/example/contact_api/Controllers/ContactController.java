@@ -1,7 +1,7 @@
-package com.example.contact_api.controllers;
+package com.example.contact_api.Controllers;
 
-import com.example.contact_api.models.Contact;
-import com.example.contact_api.services.ContactService;
+import com.example.contact_api.Models.Contact;
+import com.example.contact_api.Services.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
